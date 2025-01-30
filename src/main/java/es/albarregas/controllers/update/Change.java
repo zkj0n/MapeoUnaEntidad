@@ -1,4 +1,4 @@
-package es.albarregas.controllers;
+package es.albarregas.controllers.update;
 
 import es.albarregas.DAO.IProfesorDAO;
 import es.albarregas.DAO.ProfesorDAO;
@@ -11,11 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 
-@WebServlet(name = "Create", value = "/Create")
-public class Create extends HttpServlet {
+@WebServlet(name = "Change", value = "/Change")
+public class Change extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -42,8 +41,8 @@ public class Create extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         Profesor profesor = new Profesor();
+        IProfesorDAO profesorDAO = new ProfesorDAO();
         String url;
         try {
             BeanUtils.populate(profesor, request.getParameterMap());
@@ -52,13 +51,21 @@ public class Create extends HttpServlet {
         }
 
         if (profesor.getNombre() != null && !profesor.getNombre().isEmpty() && profesor.getApe1() != null && !profesor.getApe1().isEmpty()) {
-            IProfesorDAO profesorDAO = new ProfesorDAO();
-            profesorDAO.add(profesor);
-            request.setAttribute("p", profesor);
-            url = "./JSP/read/readOne.jsp";
+            Profesor profesorAntiguo = profesorDAO.getOne(profesor.getId());
+
+            if (profesorAntiguo.equals(profesor)){
+                request.setAttribute("error", "no se ha modificado ningún campo");
+                request.setAttribute("p", profesor);
+                url = "./JSP/update/change.jsp";
+            } else {
+                profesorDAO.update(profesor);
+                request.setAttribute("p", profesor);
+                url = "./JSP/read/readOne.jsp";
+            }
+
         } else {
             request.setAttribute("error", "el nombre y el primer apellido son obligatorios");
-            url = "./JSP/create/create.jsp";
+            url = "./JSP/update/change.jsp";
         }
 
         request.getRequestDispatcher(url).forward(request, response);

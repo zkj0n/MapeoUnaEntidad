@@ -1,17 +1,19 @@
 package es.albarregas.controllers;
 
+import es.albarregas.DAO.IProfesorDAO;
+import es.albarregas.DAO.ProfesorDAO;
+import es.albarregas.beans.Profesor;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
-@WebServlet(name = "Update", value = "/Update"/*, initParams = {
-        @WebInitParam(name = "Primero", value = "Hola"),
-        @WebInitParam(name = "Segundo", value = "Mundo")}*/)
-public class Update extends HttpServlet {
+@WebServlet(name = "Read", value = "/Read")
+public class Read extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -24,7 +26,7 @@ public class Update extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
+        request.getRequestDispatcher("./FrontController").forward(request, response);
     }
 
     /**
@@ -38,6 +40,29 @@ public class Update extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String id = request.getParameter("id");
+        String url;
+        IProfesorDAO profesorDAO = new ProfesorDAO();
+        if (id != null && !id.isEmpty()) {
+            Profesor profesor = profesorDAO.getOne(Integer.parseInt(id));
+            if (profesor != null) {
+                request.setAttribute("p", profesor);
+                url = "./JSP/read/readOne.jsp";
+            } else {
+                request.setAttribute("error", "no se ha encontrado ningún profesor con ese id");
+                url = "./JSP/read/read.jsp";
+            }
+        } else {
+            List<Profesor> profesores = profesorDAO.get();
+            if (!profesores.isEmpty()) {
+                request.setAttribute("profesores", profesores);
+                url = "./JSP/read/readAll.jsp";
+            } else {
+                request.setAttribute("error", "aún no hay profesores registrados");
+                url = "./JSP/read/read.jsp";
+            }
+        }
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     /**

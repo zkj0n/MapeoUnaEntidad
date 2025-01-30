@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="PARALLEL_COMPILATION_OPTION" value="Enabled" />
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="MapeoUnaEntidad" />
         <module name="RuizHJIber" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="MapeoUnaEntidad" options="-endorseddirs C:\Users\clash\IdeaProjects\MapeoUnaEntidad\target/endorsed" />
       <module name="RuizHJIber" options="-endorseddirs C:\Users\zkjon\Documents\NetBeansProjects\MapeoUnaEntidad\target/endorsed" />
     </option>
   </component>

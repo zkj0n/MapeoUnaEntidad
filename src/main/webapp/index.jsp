@@ -13,15 +13,12 @@
         <c:import url="INC/header.jsp"/>
 
         <main class="text-lowercase h-100 d-flex align-items-center overflow-hidden"
-              style="
-                min-height: 80vh;
-                background-color: #eee2c0;
-              ">
+              style="min-height: 80vh;">
 
             <div class="container overflow-hidden">
                 <div class="row">
                     <div class="col-12 text-center">
-                        <h1 class="mb-4">selecciona una opcion en el header</h1>
+                        <h1 class="mb-4">selecciona una opci&oacute;n en el header</h1>
                     </div>
                 </div>
                 <div class="row">

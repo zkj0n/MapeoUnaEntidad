@@ -1,4 +1,8 @@
-package es.albarregas.controllers;
+package es.albarregas.controllers.update;
+
+import es.albarregas.DAO.IProfesorDAO;
+import es.albarregas.DAO.ProfesorDAO;
+import es.albarregas.beans.Profesor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -6,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URL;
 
-@WebServlet(name = "FrontController", value = "/FrontController")
-public class FrontController extends HttpServlet {
+@WebServlet(name = "Update", value = "/Update"/*, initParams = {
+        @WebInitParam(name = "Primero", value = "Hola"),
+        @WebInitParam(name = "Segundo", value = "Mundo")}*/)
+public class Update extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -37,22 +41,22 @@ public class FrontController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String accion = request.getParameter("accion");
-        String url= ".";
-
-        switch (accion.substring(0, 1).toLowerCase()){
-            case "c":
-                url = "./JSP/create/create.jsp";
-            break;
-            case "r":
-                url = "./JSP/read/read.jsp";
-            break;
-            case "u":
+        String id = request.getParameter("id");
+        String url;
+        if (id != null && !id.isEmpty()) {
+            IProfesorDAO profesorDAO = new ProfesorDAO();
+            Profesor profesor;
+            profesor = profesorDAO.getOne(Integer.parseInt(id));
+            if (profesor != null) {
+                request.setAttribute("p", profesor);
+                url = "./JSP/update/change.jsp";
+            } else {
+                request.setAttribute("error", "no se ha encontrado ningún profesor con ese id");
                 url = "./JSP/update/update.jsp";
-            break;
-            case "d":
-                url = "./JSP/delete/delete.jsp";
-            break;
+            }
+        } else {
+            request.setAttribute("error", "no se ha seleccionado ningún profesor");
+            url = "./JSP/update/update.jsp";
         }
         request.getRequestDispatcher(url).forward(request, response);
     }

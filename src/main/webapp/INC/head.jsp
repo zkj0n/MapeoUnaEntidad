@@ -11,3 +11,8 @@
 
 <!-- Bootstrap Bundle (incluye Popper.js) -->
 <script src="${pageContext.request.contextPath}/JS/bootstrap.bundle.js"></script>
+<style>
+    body {
+        background-color: #eee2c0;
+    }
+</style>

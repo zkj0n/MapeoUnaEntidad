@@ -1,5 +1,9 @@
 package es.albarregas.controllers;
 
+import es.albarregas.DAO.IProfesorDAO;
+import es.albarregas.DAO.ProfesorDAO;
+import es.albarregas.beans.Profesor;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +28,7 @@ public class Delete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
+        request.getRequestDispatcher("./FrontController").forward(request, response);
     }
 
     /**
@@ -38,6 +42,24 @@ public class Delete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String id = request.getParameter("id");
+        String url;
+        if (id == null || id.isEmpty()) {
+            request.setAttribute("error", "el id no puede ser nulo");
+            url = "./JSP/delete/delete.jsp";
+        } else {
+            IProfesorDAO profesorDAO = new ProfesorDAO();
+            Profesor profesor = profesorDAO.getOne(Integer.parseInt(id));
+            if (profesor != null) {
+                profesorDAO.delete(profesor);
+                request.setAttribute("p", profesor);
+                url = "./JSP/delete/salida.jsp";
+            } else {
+                request.setAttribute("error", "no existe un profesor con el id " + id);
+                url = "./JSP/delete/delete.jsp";
+            }
+        }
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     /**
