@@ -1,6 +1,6 @@
 # Mapeo Una Entidad
 
-Este es un proyecto de ejemplo que implementa un CRUD básico para el mapeo de una entidad utilizando **Java 11**, **Java EE 7**, **JSP**, **CSS**, **Bootstrap** y **MySQL** con **Hibernate** para la gestión de la persistencia de datos.
+Este es un proyecto de ejemplo que implementa un CRUD básico para el mapeo de una entidad utilizando **Hibernate** para la gestión de la persistencia de datos.
 
 ## Descripción
 
@@ -31,7 +31,7 @@ El proyecto está diseñado con una arquitectura **Java EE 7**, utilizando **JSP
 1. **Clonar el repositorio**:
 
    ```bash
-   git clone https://github.com/zkj0n
+   git clone https://github.com/zkj0n/MapeoUnaEntidad.git
    ```
 
 2. **Configurar la base de datos**:
