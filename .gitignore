@@ -55,8 +55,9 @@ cmake-build-*/
 
 # intellij
 out/
-
+nb-configuration.xml
 # mpeltonen/sbt-idea plugin
+.idea/
 .idea_modules/
 
 # jira plugin
