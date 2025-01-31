@@ -3,6 +3,7 @@ package es.albarregas.controllers;
 import es.albarregas.DAO.IProfesorDAO;
 import es.albarregas.DAO.ProfesorDAO;
 import es.albarregas.beans.Profesor;
+import es.albarregas.models.ProfesorModel;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
@@ -51,7 +52,7 @@ public class Create extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        if (profesor.getNombre() != null && !profesor.getNombre().isEmpty() && profesor.getApe1() != null && !profesor.getApe1().isEmpty()) {
+        if (ProfesorModel.validarProfesor(profesor)) {
             IProfesorDAO profesorDAO = new ProfesorDAO();
             profesorDAO.add(profesor);
             request.setAttribute("p", profesor);
